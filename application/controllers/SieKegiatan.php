@@ -23,8 +23,13 @@ class SieKegiatan extends REST_Controller {
 			$this->response(array('sie_kegiatan' => $kegiatan), 200);
 		}elseif($id != ''){
 			$this->db->where('id_sie_kegiatan', $id);
-			$kegiatan = $this->db->get('tbl_sie_kegiatan')->result();
-			$this->response($kegiatan, 200);
+			$kegiatan = $this->db->get('tbl_sie_kegiatan');
+			foreach ($kegiatan->result() as $row) 
+				{
+					$data = $row;
+				}
+				
+			$this->response($data, 200);
 		}else {
 			//Menampilkan data sie kegiatan berdasarakan kegiatan
 			$this->db->where('id_kegiatan', $id_kegiatan);

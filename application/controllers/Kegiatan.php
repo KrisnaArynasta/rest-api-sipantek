@@ -105,7 +105,16 @@ class Kegiatan extends REST_Controller {
 					'foto_kegiatan'		=> $file_name
 				);
 				$posting = $this->db->insert('tbl_kegiatan', $data);
-			}
+				$this->db->select('id_kegiatan');
+				$this->db->order_by('id_kegiatan', 'DESC');
+				$this->db->limit(1);
+				$kegiatan = $this->db->get('tbl_kegiatan');
+				
+				foreach ($kegiatan->result() as $row) 
+					{
+						$data = $row;
+					}
+				}
 		}
 		
 		if ($posting) {
