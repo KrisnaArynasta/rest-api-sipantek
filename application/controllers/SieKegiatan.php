@@ -18,34 +18,50 @@ class SieKegiatan extends REST_Controller {
         $id_kegiatan = $this->get('kegiatan');
 		
 		//Menampilkan data sie kegiatan tanpa parameter 
-        if ($id_kegiatan == '' ) {
+        if ($id_kegiatan == '' and $id == '') {
             $kegiatan = $this->db->get('tbl_sie_kegiatan')->result();
+			$this->response(array('sie_kegiatan' => $kegiatan), 200);
+		}elseif($id != ''){
+			$this->db->where('id_sie_kegiatan', $id);
+			$kegiatan = $this->db->get('tbl_sie_kegiatan')->result();
+			$this->response($kegiatan, 200);
 		}else {
 			//Menampilkan data sie kegiatan berdasarakan kegiatan
 			$this->db->where('id_kegiatan', $id_kegiatan);
 			$kegiatan = $this->db->get('tbl_sie_kegiatan')->result();
+			$this->response(array('sie_kegiatan' => $kegiatan), 200);
         }
-		
-        $this->response(array('sie_kegiatan' => $kegiatan), 200);
     }
 	
 	//insert
 	function index_post() {
-	$data = array(
-				'id_kegiatan'		=> $this->post('id_kegiatan'),
-				'sie'				=> $this->post('sie'),
-				'job_desc'			=> $this->post('job'),
-				'kuota'				=> $this->post('kuota'),
-				'nama_koor'			=> $this->post('koor'),
-				'id_line_koor'		=> $this->post('line')
-			);
-		$insert = $this->db->insert('tbl_sie_kegiatan', $data);
-		if ($insert) {
-			$this->response($data, 200);
-		} else {
-			$this->response(array('status' => 'fail', 502));
+		$role = $this->post('role');
+		if($role=="insert"){
+			$data = array(
+						'id_kegiatan'		=> $this->post('id_kegiatan'),
+						'sie'				=> $this->post('sie'),
+						'job_desc'			=> $this->post('job'),
+						'kuota'				=> $this->post('kuota'),
+						'nama_koor'			=> $this->post('koor'),
+						'id_line_koor'		=> $this->post('line')
+					);
+				$insert = $this->db->insert('tbl_sie_kegiatan', $data);
+				if ($insert) {
+					$this->response($data, 200);
+				} else {
+					$this->response(array('status' => 'fail', 502));
+				}
+		}else{
+			$id=$this->post('id');
+			$this->db->where('id_sie_kegiatan', $id);
+			$delete = $this->db->delete('tbl_sie_kegiatan');
+			if ($delete){
+				$this->response(array('status' => "deleted"), 200);
+			}else{
+				$this->response(array('status' => 'fail'), 502);
+			}
 		}
-    }
+	}
 	
 	//update
 	function index_put() {
@@ -67,20 +83,6 @@ class SieKegiatan extends REST_Controller {
         } else {
             $this->response(array('status' => 'fail', 502));
         }
-    }
-	
-	public function index_delete(){
-        $id = $this->delete('id');
-
-		$this->db->where('id_sie_kegiatan', $id);
-		$delete = $this->db->delete('tbl_sie_kegiatan');	
-        
-		if ($delete){
-            $this->response(array('status' => "deleted"), 200);
-        }else{
-            $this->response(array('status' => 'fail'), 502);
-        }
-
     }
 }
 ?>
