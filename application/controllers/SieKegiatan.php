@@ -72,7 +72,6 @@ class SieKegiatan extends REST_Controller {
 	function index_put() {
         $id = $this->put('id');
         $data = array(
-				'id_kegiatan'		=> $this->put('id_kegiatan'),
 				'sie'				=> $this->put('sie'),
 				'job_desc'			=> $this->put('job'),
 				'kuota'				=> $this->put('kuota'),
