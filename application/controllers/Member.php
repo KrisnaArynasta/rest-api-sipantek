@@ -10,59 +10,65 @@ class Member extends REST_Controller {
     function __construct($config = 'rest') {
         parent::__construct($config);
         $this->load->database();
+		$this->load->Model('Auth');		
     }
 
     function index_get() {
-        $id = $this->get('id');
-        $sts = $this->get('sts');
-        $id_kegiatan = $this->get('id_kegiatan');
-		
-		//Menampilkan data kegiatan tanpa parameter id dan status
-        if ($id =='' and $sts =='' and $id_kegiatan =='') {
-			$kegiatan = $this->db->get('tbl_member');
-			foreach ($kegiatan->result() as $row) 
-			{
-				$row->foto_mahasiswa = "http://172.17.100.2/rest_ci/images/".$row->foto_mahasiswa;	
-				$data[] = $row;
-			}
-		}else {
-			if ($sts != '') {
-				$this->db->where('status_active', $sts);
+		$token=$this->Auth->auth();
+		if ($token == 1){ // cek login		
+			$id = $this->get('id');
+			$sts = $this->get('sts');
+			$id_kegiatan = $this->get('id_kegiatan');
+			
+			//Menampilkan data kegiatan tanpa parameter id dan status
+			if ($id =='' and $sts =='' and $id_kegiatan =='') {
 				$kegiatan = $this->db->get('tbl_member');
 				foreach ($kegiatan->result() as $row) 
 				{
 					$row->foto_mahasiswa = "http://172.17.100.2/rest_ci/images/".$row->foto_mahasiswa;	
 					$data[] = $row;
 				}
-				
-			}else if ($id != ''	){ 
-				$this->db->where('id_mahasiswa', $id);
-				$kegiatan = $this->db->get('tbl_member');
-				foreach ($kegiatan->result() as $row) 
-				{
-					$row->foto_mahasiswa = "http://172.17.100.2/rest_ci/images/".$row->foto_mahasiswa;	
-					$data[] = $row;
-				}
-				
-			}else if ($id_kegiatan != ''){ 
-				$this->db->select('*');
-				$this->db->from('tbl_member m');;
-				$this->db->join('tbl_kepanitiaan k', 'm.id_mahasiswa = k.id_mahasiswa');
-				$this->db->join('tbl_sie_kegiatan sk', 'k.id_sie_kegiatan = sk.id_sie_kegiatan');
-				$this->db->join('tbl_kegiatan kg', 'sk.id_kegiatan = kg.id_kegiatan');
-				$this->db->where('sk.id_kegiatan',$id_kegiatan);
-				$kegiatan = $this->db->get('tbl_member');
-				foreach ($kegiatan->result() as $row) 
-				{
-					$row->foto_mahasiswa = "http://172.17.100.2/rest_ci/images/".$row->foto_mahasiswa;	
-					$data[] = $row;
-				}
-			}  
+			}else {
+				if ($sts != '') {
+					$this->db->where('status_active', $sts);
+					$kegiatan = $this->db->get('tbl_member');
+					foreach ($kegiatan->result() as $row) 
+					{
+						$row->foto_mahasiswa = "http://172.17.100.2/rest_ci/images/".$row->foto_mahasiswa;	
+						$data[] = $row;
+					}
+					
+				}else if ($id != ''	){ 
+					$this->db->where('id_mahasiswa', $id);
+					$kegiatan = $this->db->get('tbl_member');
+					foreach ($kegiatan->result() as $row) 
+					{
+						$row->foto_mahasiswa = "http://172.17.100.2/rest_ci/images/".$row->foto_mahasiswa;	
+						$data[] = $row;
+					}
+					
+				}else if ($id_kegiatan != ''){ 
+					$this->db->select('*');
+					$this->db->from('tbl_member m');;
+					$this->db->join('tbl_kepanitiaan k', 'm.id_mahasiswa = k.id_mahasiswa');
+					$this->db->join('tbl_sie_kegiatan sk', 'k.id_sie_kegiatan = sk.id_sie_kegiatan');
+					$this->db->join('tbl_kegiatan kg', 'sk.id_kegiatan = kg.id_kegiatan');
+					$this->db->where('sk.id_kegiatan',$id_kegiatan);
+					$kegiatan = $this->db->get('tbl_member');
+					foreach ($kegiatan->result() as $row) 
+					{
+						$row->foto_mahasiswa = "http://172.17.100.2/rest_ci/images/".$row->foto_mahasiswa;	
+						$data[] = $row;
+					}
+				}  
 
-        }
-		
-        $this->response(array('member' => $data), 200);
-    }
+			}
+			
+			$this->response(array('member' => $data), 200);
+		}else{ // gagal login
+			$this->response(array('Message' => 'Fail Auth'), 200);
+		}
+	}
 	
 	//insert and update
 	function index_post() {
@@ -70,42 +76,55 @@ class Member extends REST_Controller {
         $id = $this->post('id');
 				
         if($role=='update'){
-			$uploaddir = './images/member/';
-			$file_name = underscore($_FILES['foto']['name']);
-			$uploadfile = $uploaddir.$file_name;
-			
-			if (move_uploaded_file($_FILES['foto']['tmp_name'], $uploadfile)) {
-				$data = array(
-					'nim'				=> $this->post('nim'),
-					'nama_mahasiswa'	=> $this->post('nama'),
-					'angkatan'			=> $this->post('angkatan'),
-					'username'			=> $this->post('username'),
-					'password'			=> $this->post('password'),
-					'foto_mahasiswa'	=> $file_name
-					);
+			$token=$this->Auth->auth();
+			if ($token == 1){ // cek login		
+				$uploaddir = './images/member/';
+				$file_name = underscore($_FILES['foto']['name']);
+				$uploadfile = $uploaddir.$file_name;
+				
+				if (move_uploaded_file($_FILES['foto']['tmp_name'], $uploadfile)) {
+					$data = array(
+						'nim'				=> $this->post('nim'),
+						'nama_mahasiswa'	=> $this->post('nama'),
+						'angkatan'			=> $this->post('angkatan'),
+						'username'			=> $this->post('username'),
+						'password'			=> $this->post('password'),
+						'foto_mahasiswa'	=> $file_name
+						);
+				}
+				
+				$msg = "Updated";	
+				$this->db->where('id_mahasiswa', $id);
+				$posting = $this->db->update('tbl_member', $data);	
+			}else{ // gagal login
+				$this->response(array('Message' => 'Fail Auth'), 200);
 			}
-			
-			$msg = "Updated";	
-			$this->db->where('id_mahasiswa', $id);
-			$posting = $this->db->update('tbl_member', $data);	
-			
 		}else if ($role=='delete'){
-			$data = array(
-				'status_active'	=> 0
-				);
-			
-			$msg = "Non-Actived";
-			$this->db->where('id_mahasiswa', $id);
-			$posting = $this->db->update('tbl_member', $data);
+			$token=$this->Auth->auth();
+			if ($token == 1){ // cek login
+				$data = array(
+					'status_active'	=> 0
+					);
+				
+				$msg = "Non-Actived";
+				$this->db->where('id_mahasiswa', $id);
+				$posting = $this->db->update('tbl_member', $data);
+			}else{ // gagal login
+				$this->response(array('Message' => 'Fail Auth'), 200);
+			}
 		}else if($role=='active'){
-			$data = array(
-				'status_active'	=> 1
-				);
-			
-			$msg = "Actived";			
-			$this->db->where('id_mahasiswa', $id);
-			$posting = $this->db->update('tbl_member', $data);
-			
+			token=$this->Auth->auth();
+			if ($token == 1){ // cek login
+				$data = array(
+					'status_active'	=> 1
+					);
+				
+				$msg = "Actived";			
+				$this->db->where('id_mahasiswa', $id);
+				$posting = $this->db->update('tbl_member', $data);
+			}else{ // gagal login
+				$this->response(array('Message' => 'Fail Auth'), 200);
+			}			
 		}else if($role=='insert'){
 				$data = array(
 				'nim'				=> $this->post('nim'),
