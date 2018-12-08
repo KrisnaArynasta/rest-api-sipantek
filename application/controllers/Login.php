@@ -23,7 +23,9 @@ class Login extends REST_Controller {
 			
 			if ($login->num_rows() > 0){
 				$token = substr(str_shuffle("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTU1234567890"),0,100);
+				foreach ($login->result() as $row) 
 				$data_login = array (
+						'role' => $row->role,
 						'login_token' => $token
 						);
 				$this->db->where($data);
