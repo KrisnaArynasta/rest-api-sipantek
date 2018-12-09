@@ -113,7 +113,7 @@ class Member extends REST_Controller {
 				$this->response(array('Message' => 'Fail Auth'), 200);
 			}
 		}else if($role=='active'){
-			token=$this->Auth->auth();
+			$token=$this->Auth->auth();
 			if ($token == 1){ // cek login
 				$data = array(
 					'status_active'	=> 1
