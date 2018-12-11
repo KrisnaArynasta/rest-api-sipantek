@@ -12,7 +12,7 @@ class Auth extends CI_Model {
 				$this->db->where($data);
 				$login = $this->db->get('tbl_member');
 				
-				if ($login->num_rows() == 1{
+				if ($login->num_rows() == 1){
 					return 1;
 				}else{
 					return 0;
