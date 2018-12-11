@@ -14,7 +14,7 @@ class Member extends REST_Controller {
     }
 
     function index_get() {
-		$token=$this->Auth->auth();
+		$token=$this->Auth->cek_login();
 		if ($token == 1){ // cek login		
 			$id = $this->get('id');
 			$sts = $this->get('sts');
@@ -76,7 +76,7 @@ class Member extends REST_Controller {
         $id = $this->post('id');
 				
         if($role=='update'){
-			$token=$this->Auth->auth();
+			$token=$this->Auth->cek_login();
 			if ($token == 1){ // cek login		
 				$uploaddir = './images/member/';
 				$file_name = underscore($_FILES['foto']['name']);
@@ -100,7 +100,7 @@ class Member extends REST_Controller {
 				$this->response(array('Message' => 'Fail Auth'), 200);
 			}
 		}else if ($role=='delete'){
-			$token=$this->Auth->auth();
+			$token=$this->Auth->cek_login();
 			if ($token == 1){ // cek login
 				$data = array(
 					'status_active'	=> 0
@@ -113,7 +113,7 @@ class Member extends REST_Controller {
 				$this->response(array('Message' => 'Fail Auth'), 200);
 			}
 		}else if($role=='active'){
-			$token=$this->Auth->auth();
+			$token=$this->Auth->cek_login();
 			if ($token == 1){ // cek login
 				$data = array(
 					'status_active'	=> 1

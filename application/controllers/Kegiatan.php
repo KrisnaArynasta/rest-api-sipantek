@@ -15,7 +15,7 @@ class Kegiatan extends REST_Controller {
 
     function index_get(){
 
-		$token=$this->Auth->auth();
+		$token=$this->Auth->cek_login();
 		if ($token == 1){ // cek login
 
 			$id = $this->get('id');
@@ -59,7 +59,7 @@ class Kegiatan extends REST_Controller {
 	
 	//insert update delete
 	function index_post() {
-		$token=$this->Auth->auth();
+		$token=$this->Auth->cek_login();
 		if ($token == 1){
 			$role = $this->post('role');
 			$id = $this->post('id');

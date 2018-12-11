@@ -10,10 +10,11 @@ class Kepanitiaan extends REST_Controller {
     function __construct($config = 'rest') {
         parent::__construct($config);
         $this->load->database();
+		$this->load->Model('Auth');
     }
 
     function index_get() {
-		$token=$this->Auth->auth();
+		$token=$this->Auth->cek_login();
 		if ($token == 1){ // cek login		
 			$id = $this->get('id');
 			$id_mahasiswa = $this->get('id_mahasiswa');
@@ -60,7 +61,7 @@ class Kepanitiaan extends REST_Controller {
 	
 	//insert
 	function index_post() {
-		$token=$this->Auth->auth();
+		$token=$this->Auth->cek_login();
 		if ($token == 1){ // cek login		
 			$data = array(
 						'id_mahasiswa'		=> $this->post('id_mahasiswa'),
@@ -81,7 +82,7 @@ class Kepanitiaan extends REST_Controller {
 	
 	//update and delete
 	function index_put() {
-		$token=$this->Auth->auth();
+		$token=$this->Auth->cek_login();
 		if ($token == 1){ // cek login	
 			$role = $this->put('role');
 			$id = $this->put('id');

@@ -15,7 +15,7 @@ class SieKegiatan extends REST_Controller {
 
     
     function index_get() {
-		$token=$this->Auth->auth();
+		$token=$this->Auth->cek_login();
 		if ($token == 1){ // cek login		
 			$id = $this->get('id');
 			$id_kegiatan = $this->get('kegiatan');
@@ -46,7 +46,7 @@ class SieKegiatan extends REST_Controller {
 	
 	//insert
 	function index_post() {
-		$token=$this->Auth->auth();
+		$token=$this->Auth->cek_login();
 		if ($token == 1){ // cek login		
 			$role = $this->post('role');
 			if($role=="insert"){
@@ -81,7 +81,7 @@ class SieKegiatan extends REST_Controller {
 	
 	//update
 	function index_put() {
-		$token=$this->Auth->auth();
+		$token=$this->Auth->cek_login();
 		if ($token == 1){ // cek login			
 			$id = $this->put('id');
 			$data = array(

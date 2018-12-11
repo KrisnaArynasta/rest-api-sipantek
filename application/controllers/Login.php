@@ -16,7 +16,8 @@ class Login extends REST_Controller {
 	function index_post() {
 		$data = array(
 					'username'		=> $this->post('username'),
-					'password'		=> $this->post('password')
+					'password'		=> $this->post('password'),
+					'status_active'		=> 1
 				);
 			$this->db->where($data);
 			$login = $this->db->get('tbl_member');
@@ -25,7 +26,14 @@ class Login extends REST_Controller {
 				$token = substr(str_shuffle("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTU1234567890"),0,100);
 				foreach ($login->result() as $row) 
 				$data_login = array (
+						'role' => $row->nim,
+						'role' => $row->nama_mahasiswa,
+						'role' => $row->angkatan,
+						'role' => $row->username,
+						'role' => $row->foto_mahasiswa,
+						'role' => $row->status_active,
 						'role' => $row->role,
+						'role' => $row->id_mahasiswa,
 						'login_token' => $token
 						);
 				$this->db->where($data);
