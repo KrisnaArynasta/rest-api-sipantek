@@ -26,14 +26,14 @@ class Login extends REST_Controller {
 				$token = substr(str_shuffle("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTU1234567890"),0,100);
 				foreach ($login->result() as $row) 
 				$data_login = array (
-						'role' => $row->nim,
-						'role' => $row->nama_mahasiswa,
-						'role' => $row->angkatan,
-						'role' => $row->username,
-						'role' => $row->foto_mahasiswa,
-						'role' => $row->status_active,
+						'id_mahasiswa' => $row->id_mahasiswa,
+						'nim' => $row->nim,
+						'nama_mahasiswa' => $row->nama_mahasiswa,
+						'angkatan' => $row->angkatan,
+						'username' => $row->username,
+						'foto_mahasiswa' => $row->foto_mahasiswa,
+						'status_active' => $row->status_active,
 						'role' => $row->role,
-						'role' => $row->id_mahasiswa,
 						'login_token' => $token
 						);
 				$this->db->where($data);
