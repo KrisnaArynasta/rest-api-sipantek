@@ -18,6 +18,7 @@ class Kepanitiaan extends REST_Controller {
 		if ($token == 1){ // cek login		
 			$id = $this->get('id');
 			$id_mahasiswa = $this->get('id_mahasiswa');
+			$sts_kegiatan = $this->get('sts_kegiatan');
 			$id_kegiatan = $this->get('id_kegiatan');
 			$id_sie_kegiatan = $this->get('id_sie_kegiatan');
 			$sts = $this->get('sts');
@@ -32,12 +33,20 @@ class Kepanitiaan extends REST_Controller {
 				}else if ($id != ''	){ 
 					$this->db->where('id_kepanitiaan', $id);
 					$kegiatan = $this->db->get('tbl_kepanitiaan')->result();
-				}else if ($id_mahasiswa != ''){ 
-					$this->db->where('id_mahasiswa', $mahasiswa);
-					$kegiatan = $this->db->get('tbl_kepanitiaan')->result();
+				}else if ($id_mahasiswa != '' && $sts_kegiatan != ''){ 
+					$where = array(
+						'id_mahasiswa' => $id_mahasiswa,
+						'status' => $sts_kegiatan
+					);
+					$this->db->select('*');
+					$this->db->from('tbl_kepanitiaan p');
+					$this->db->join('tbl_sie_kegiatan sk', 'p.id_sie_kegiatan = sk.id_sie_kegiatan');
+					$this->db->join('tbl_kegiatan k', 'sk.id_kegiatan = k.id_kegiatan');
+					$this->db->where($where);
+					$kegiatan = $this->db->get()->result();
 				}else if ($id_kegiatan != ''){ 
 					$this->db->select('*');
-					$this->db->from('tbl_kepanitiaan p');;
+					$this->db->from('tbl_kepanitiaan p');
 					$this->db->join('tbl_sie_kegiatan sk', 'p.id_sie_kegiatan = sk.id_sie_kegiatan');
 					$this->db->join('tbl_kegiatan k', 'sk.id_kegiatan = k.id_kegiatan');
 					$this->db->where('sk.id_kegiatan',$id_kegiatan);
