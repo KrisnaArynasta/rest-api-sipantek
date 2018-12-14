@@ -43,7 +43,7 @@ class Login extends REST_Controller {
 			if ($token) {
 				$this->response($data_login, 200);
 			} else {
-				$this->response(array('status' => 'fail', 502));
+				$this->response(array('status' => 'fail'), 502);
 			}
 	}
 }

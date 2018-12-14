@@ -66,7 +66,7 @@ class Member extends REST_Controller {
 			
 			$this->response(array('member' => $data), 200);
 		}else{ // gagal login
-			$this->response(array('Message' => 'Fail Auth'), 200);
+			$this->response(array('Message' => 'Fail Auth'), 502);
 		}
 	}
 	
@@ -110,7 +110,7 @@ class Member extends REST_Controller {
 				$this->db->where('id_mahasiswa', $id);
 				$posting = $this->db->update('tbl_member', $data);
 			}else{ // gagal login
-				$this->response(array('Message' => 'Fail Auth'), 200);
+				$this->response(array('Message' => 'Fail Auth'), 502);
 			}
 		}else if($role=='active'){
 			$token=$this->Auth->cek_login();
@@ -123,7 +123,7 @@ class Member extends REST_Controller {
 				$this->db->where('id_mahasiswa', $id);
 				$posting = $this->db->update('tbl_member', $data);
 			}else{ // gagal login
-				$this->response(array('Message' => 'Fail Auth'), 200);
+				$this->response(array('Message' => 'Fail Auth'), 502);
 			}			
 		}else if($role=='insert'){
 				$data = array(

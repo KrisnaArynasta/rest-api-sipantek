@@ -40,7 +40,7 @@ class SieKegiatan extends REST_Controller {
 				$this->response(array('sie_kegiatan' => $kegiatan), 200);
 			}
 		}else{ // gagal login
-			$this->response(array('Message' => 'Fail Auth'), 200);
+			$this->response(array('Message' => 'Fail Auth'), 502);
 		}
 	}
 	
@@ -75,7 +75,7 @@ class SieKegiatan extends REST_Controller {
 				}
 			}
 		}else{ // gagal login
-			$this->response(array('Message' => 'Fail Auth'), 200);
+			$this->response(array('Message' => 'Fail Auth'), 502);
 		}	
 	}
 	
@@ -101,7 +101,7 @@ class SieKegiatan extends REST_Controller {
 				$this->response(array('status' => 'fail', 502));
 			}
  		}else{ // gagal login
-			$this->response(array('Message' => 'Fail Auth'), 200);
+			$this->response(array('Message' => 'Fail Auth'), 502);
 		}	   
 	}
 }

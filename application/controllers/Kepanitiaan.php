@@ -64,7 +64,7 @@ class Kepanitiaan extends REST_Controller {
 			
 			$this->response(array('kepanitiaan' => $kegiatan), 200);
 		}else{ // gagal login
-			$this->response(array('Message' => 'Fail Auth'), 200);
+			$this->response(array('Message' => 'Fail Auth'), 502);
 		}
 	}
 	
@@ -85,7 +85,7 @@ class Kepanitiaan extends REST_Controller {
 					$this->response(array('status' => 'fail', 502));
 				}
 		}else{ // gagal login
-			$this->response(array('Message' => 'Fail Auth'), 200);
+			$this->response(array('Message' => 'Fail Auth'), 502);
 		}	
     }
 	
@@ -131,7 +131,7 @@ class Kepanitiaan extends REST_Controller {
 				$this->response(array('status' => 'fail', 502));
 			}
 		}else{ // gagal login
-			$this->response(array('Message' => 'Fail Auth'), 200);
+			$this->response(array('Message' => 'Fail Auth'), 502);
 		}
 	}
 	

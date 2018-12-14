@@ -53,7 +53,7 @@ class Kegiatan extends REST_Controller {
 			
 			$this->response(array('kegiatan' => $data), 200);
 		}else{ // gagal login
-			$this->response(array('Message' => 'Fail Auth'), 200);
+			$this->response(array('Message' => 'Fail Auth'), 502);
 		}
     }
 	
@@ -132,7 +132,7 @@ class Kegiatan extends REST_Controller {
 			}
 
 		}else{
-			$this->response(array('Message' => 'Fail Auth'), 200);
+			$this->response(array('Message' => 'Fail Auth'), 502);
 		}
     }
 	
