@@ -25,13 +25,24 @@ class Kepanitiaan extends REST_Controller {
 			
 			//Menampilkan data kegiatan tanpa parameter id dan status
 			if ($id == '' and $sts == '' and $id_mahasiswa == '' and $id_kegiatan == '' and $id_sie_kegiatan == '') {
+				$this->db->select('*');
+				$this->db->from('tbl_kepanitiaan p');
+				$this->db->join('tbl_sie_kegiatan sk', 'p.id_sie_kegiatan = sk.id_sie_kegiatan');
+				$this->db->join('tbl_kegiatan k', 'sk.id_kegiatan = k.id_kegiatan');
 				$kegiatan = $this->db->get('tbl_kepanitiaan')->result();
 			}else {
 				if ($sts != '') { 
-					$this->db->where('status_panitia', $sts);
+					$this->db->select('*');
+					$this->db->from('tbl_kepanitiaan p');
+					$this->db->join('tbl_sie_kegiatan sk', 'p.id_sie_kegiatan = sk.id_sie_kegiatan');
+					$this->db->join('tbl_kegiatan k', 'sk.id_kegiatan = k.id_kegiatan');
+					$this->db->where('status', $sts);
 					$kegiatan = $this->db->get('tbl_kepanitiaan')->result();
-				}else if ($id != ''	){ 
-					$this->db->where('id_kepanitiaan', $id);
+				}else if ($id != ''	){ 					$this->db->select('*');
+					$this->db->from('tbl_kepanitiaan p');
+					$this->db->join('tbl_sie_kegiatan sk', 'p.id_sie_kegiatan = sk.id_sie_kegiatan');
+					$this->db->join('tbl_kegiatan k', 'sk.id_kegiatan = k.id_kegiatan');
+					$this->db->where('p.id_kepanitiaan', $id);
 					$kegiatan = $this->db->get('tbl_kepanitiaan')->result();
 				}else if ($id_mahasiswa != '' && $sts_kegiatan != ''){ 
 					$where = array(

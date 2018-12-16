@@ -25,7 +25,7 @@ class Member extends REST_Controller {
 				$kegiatan = $this->db->get('tbl_member');
 				foreach ($kegiatan->result() as $row) 
 				{
-					$row->foto_mahasiswa = "http://172.17.100.2/rest_ci/images/".$row->foto_mahasiswa;	
+					$row->foto_mahasiswa = "http://172.17.100.2/rest_ci/images/member/".$row->foto_mahasiswa;	
 					$data[] = $row;
 				}
 			}else {
@@ -34,7 +34,7 @@ class Member extends REST_Controller {
 					$kegiatan = $this->db->get('tbl_member');
 					foreach ($kegiatan->result() as $row) 
 					{
-						$row->foto_mahasiswa = "http://172.17.100.2/rest_ci/images/".$row->foto_mahasiswa;	
+						$row->foto_mahasiswa = "http://172.17.100.2/rest_ci/images/member/".$row->foto_mahasiswa;	
 						$data[] = $row;
 					}
 					
@@ -43,7 +43,7 @@ class Member extends REST_Controller {
 					$kegiatan = $this->db->get('tbl_member');
 					foreach ($kegiatan->result() as $row) 
 					{
-						$row->foto_mahasiswa = "http://172.17.100.2/rest_ci/images/".$row->foto_mahasiswa;	
+						$row->foto_mahasiswa = "http://172.17.100.2/rest_ci/images/member/".$row->foto_mahasiswa;	
 						$data[] = $row;
 					}
 					
@@ -57,7 +57,7 @@ class Member extends REST_Controller {
 					$kegiatan = $this->db->get('tbl_member');
 					foreach ($kegiatan->result() as $row) 
 					{
-						$row->foto_mahasiswa = "http://172.17.100.2/rest_ci/images/".$row->foto_mahasiswa;	
+						$row->foto_mahasiswa = "http://172.17.100.2/rest_ci/images/member/".$row->foto_mahasiswa;	
 						$data[] = $row;
 					}
 				}  
