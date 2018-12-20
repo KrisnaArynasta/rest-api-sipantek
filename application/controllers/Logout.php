@@ -26,7 +26,8 @@ class Logout extends REST_Controller {
 			if ($login->num_rows() > 0){
 				$token = "TKN10283491230121";
 				$data_login = array (
-						'login_token' => ""
+						'login_token' => "",
+						'id_perangkat' => ""
 						);
 				$this->db->where($data);
 				$token = $this->db->update('tbl_member', $data_login);

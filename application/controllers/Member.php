@@ -49,7 +49,7 @@ class Member extends REST_Controller {
 					
 				}else if ($id_kegiatan != ''){ 
 					$this->db->select('*');
-					$this->db->from('tbl_member m');;
+					$this->db->from('tbl_member m');
 					$this->db->join('tbl_kepanitiaan k', 'm.id_mahasiswa = k.id_mahasiswa');
 					$this->db->join('tbl_sie_kegiatan sk', 'k.id_sie_kegiatan = sk.id_sie_kegiatan');
 					$this->db->join('tbl_kegiatan kg', 'sk.id_kegiatan = kg.id_kegiatan');

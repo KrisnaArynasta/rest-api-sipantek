@@ -126,39 +126,29 @@ class Kepanitiaan extends REST_Controller {
 				$msg = "Non-Actived";
 				$this->db->where('id_kepanitiaan', $id);
 				$update = $this->db->update('tbl_kepanitiaan', $data);
-				
-				
-				// API access key from Google FCM App Console
+								
+				// api key firebase				
 				define( 'API_ACCESS_KEY', 'AAAAVwqaT0k:APA91bHY_YBLsFhagGpqM88I24izJeTeKEhyeS3A0CH_AawmSCWuXXGd_Hmk3KhBK1IkyHjTLO0X6A06AAZy5LR2lhhDO7lWybaelAY3Vl1Jl5MxGyL0vs2WLG8JLkKg6cauKDdvkiDq' );
 
-				// generated via the cordova phonegap-plugin-push using "senderID" (found in FCM App Console)
-				// this was generated from my phone and outputted via a console.log() in the function that calls the plugin
-				// my phone, using my FCM senderID, to generate the following registrationId 
-				$singleID = 'dEf7vyh4k8c:APA91bGkVW2qUqUz4VbpAcetx0H7kOO3n2h32mrTbVtV15rsdDXjvlJ8TRRaqgTUxEDv0OewdtTDeJXU6dyTEPPCth1_oOWAYu-x0wuseDV6ZYyis-dzVExjcMsrcKTTbggA9Dhwgcv0' ; 
-				//$registrationIDs = array(
-					 //'eEvFbrtfRMA:APA91bFoT2XFPeM5bLQdsa8-HpVbOIllzgITD8gL9wohZBg9U.............mNYTUewd8pjBtoywd', 
-					 //'eEvFbrtfRMA:APA91bFoT2XFPeM5bLQdsa8-HpVbOIllzgITD8gL9wohZBg9U.............mNYTUewd8pjBtoywd'
-					// 'eEvFbrtfRMA:APA91bFoT2XFPeM5bLQdsa8-HpVbOIllzgITD8gL9wohZBg9U.............mNYTUewd8pjBtoywd'
-				//) ;
+				$this->db->select('*');
+				$this->db->from('tbl_kepanitiaan k');
+				$this->db->join('tbl_member m', 'm.id_mahasiswa = k.id_mahasiswa');
+				$this->db->where('id_kepanitiaan', $id);
+				$kegiatan = $this->db->get('tbl_kepanitiaan');
+				foreach ($kegiatan->result() as $row) 
+				{
+					// id perangkat	
+					$singleID = $row->id_perangkat;
+				}
 
-				// prep the bundle
-				// to see all the options for FCM to/notification payload: 
-				// https://firebase.google.com/docs/cloud-messaging/http-server-ref#notification-payload-support 
-
-				// 'vibrate' available in GCM, but not in FCM
+				
 				$fcmMsg = array(
 					'body' => 'KONTOLLLLL!!!!',
 					'title' => 'XXX',
 					'sound' => "default",
 						'color' => "#203E78" 
 				);
-				// I haven't figured 'color' out yet.  
-				// On one phone 'color' was the background color behind the actual app icon.  (ie Samsung Galaxy S5)
-				// On another phone, it was the color of the app icon. (ie: LG K20 Plush)
-
-				// 'to' => $singleID ;  // expecting a single ID
-				// 'registration_ids' => $registrationIDs ;  // expects an array of ids
-				// 'priority' => 'high' ; // options are normal and high, if not set, defaults to high.
+				
 				$fcmFields = array(
 					'to' => $singleID,
 						'priority' => 'high',
