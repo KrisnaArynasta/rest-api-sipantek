@@ -23,6 +23,7 @@ class Kegiatan extends REST_Controller {
 			
 			//Menampilkan data kegiatan tanpa parameter id dan status
 			if ($id == '' and $sts == '') {
+				$this->db->order_by('id_kegiatan','DESC');
 				$kegiatan = $this->db->get('tbl_kegiatan');
 					foreach ($kegiatan->result() as $row) 
 					{
@@ -32,6 +33,7 @@ class Kegiatan extends REST_Controller {
 			}else {
 				if ($sts != '') { //Menampilkan data kegiatan berdasarkan status
 					$this->db->where('status', $sts);
+					$this->db->order_by('id_kegiatan','DESC');
 					$kegiatan = $this->db->get('tbl_kegiatan');
 					foreach ($kegiatan->result() as $row) 
 					{
@@ -41,6 +43,7 @@ class Kegiatan extends REST_Controller {
 				}else if ($id != ''	){ 
 					//Menampilkan data kegiatan berdasarkan id
 					$this->db->where('id_kegiatan', $id);
+					$this->db->order_by('id_kegiatan','DESC');
 					$kegiatan = $this->db->get('tbl_kegiatan');
 					foreach ($kegiatan->result() as $row) 
 					{
