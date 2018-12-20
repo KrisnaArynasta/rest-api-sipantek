@@ -133,7 +133,7 @@ class Kepanitiaan extends REST_Controller {
 				$this->db->select('*');
 				$this->db->from('tbl_kepanitiaan k');
 				$this->db->join('tbl_member m', 'm.id_mahasiswa = k.id_mahasiswa');
-				$this->db->where('id_kepanitiaan', $id);
+				$this->db->where('k.id_kepanitiaan', $id);
 				$kegiatan = $this->db->get('tbl_kepanitiaan');
 				foreach ($kegiatan->result() as $row) 
 				{
