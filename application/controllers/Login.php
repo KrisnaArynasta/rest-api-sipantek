@@ -17,7 +17,6 @@ class Login extends REST_Controller {
 		$data = array(
 					'username'		=> $this->post('username'),
 					'password'		=> $this->post('password'),
-					'id_perangkat'		=> $this->post('perangkat'),
 					'status_active'		=> 1
 				);
 			$this->db->where($data);
@@ -35,7 +34,8 @@ class Login extends REST_Controller {
 						'foto_mahasiswa' => $row->foto_mahasiswa,
 						'status_active' => $row->status_active,
 						'role' => $row->role,
-						'login_token' => $token
+						'login_token' => $token,
+						'id_perangkat' => $this->post('perangkat')
 						);
 				$this->db->where($data);
 				$token = $this->db->update('tbl_member', $data_login);
