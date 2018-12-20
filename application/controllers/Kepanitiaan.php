@@ -133,25 +133,32 @@ class Kepanitiaan extends REST_Controller {
 				$this->db->select('*');
 				$this->db->from('tbl_kepanitiaan k');
 				$this->db->join('tbl_member m', 'm.id_mahasiswa = k.id_mahasiswa');
+				$this->db->join('tbl_sie_kegiatan sk', 'k.id_sie_kegiatan = sk.id_sie_kegiatan');
+				$this->db->join('tbl_kegiatan kg', 'sk.id_kegiatan = kg.id_kegiatan');
 				$this->db->where('k.id_kepanitiaan', $id);
 				$kegiatan = $this->db->get('tbl_kepanitiaan');
 				foreach ($kegiatan->result() as $row) 
 				{
-					// id perangkat	
-					$singleID = $row->id_perangkat;
+
+					$singleID = $row->id_perangkat; // id perangkat	
+					$panitian_cut = $row->nama_kegiatan;
+					$nama_mahasiswa_cut = $row->nama_mahasiswa;
+					$id_mahasiswa_cut = $row->id_mahasiswa;
 				}
 
+				$title = 'Cut Kepanitiaan';
+				$pesan = 'Hallo '. $nama_mahasiswa_cut .', Anda di Cut di kepanitiaan '. $panitian_cut .'. Jangan Berkecil Hati Ikuti Kegiatan Yang Akan Datang Lainnya';
 				
 				$fcmMsg = array(
-					'body' => 'KONTOLLLLL!!!!',
-					'title' => 'XXX',
+					'body' => $pesan,
+					'title' => $title,
 					'sound' => "default",
 						'color' => "#203E78" 
 				);
 				
 				$fcmFields = array(
 					'to' => $singleID,
-						'priority' => 'high',
+					'priority' => 'high',
 					'notification' => $fcmMsg
 				);
 
@@ -171,6 +178,12 @@ class Kepanitiaan extends REST_Controller {
 				curl_close( $ch );
 				echo $result . "\n\n";
 				
+				$data_notif = array(
+						'id_mahasiswa'		=> $id_mahasiswa_cut,
+						'judul'				=> $title,
+						'pesan'				=> $pesan
+					);
+				$insert = $this->db->insert('tbl_pemberitahuan', $data_notif);
 				
 			}else if($role=='active'){
 				$data = array(
