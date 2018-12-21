@@ -65,7 +65,7 @@ class Kepanitiaan extends REST_Controller {
 						}
 				}else if ($id_mahasiswa != '' && $sts_kegiatan != ''){ 
 					$where = array(
-						'id_mahasiswa' => $id_mahasiswa,
+						'sk.id_mahasiswa' => $id_mahasiswa,
 						'status' => $sts_kegiatan
 					);
 					$this->db->select('*');
