@@ -29,7 +29,12 @@ class Kepanitiaan extends REST_Controller {
 				$this->db->from('tbl_kepanitiaan p');
 				$this->db->join('tbl_sie_kegiatan sk', 'p.id_sie_kegiatan = sk.id_sie_kegiatan');
 				$this->db->join('tbl_kegiatan k', 'sk.id_kegiatan = k.id_kegiatan');
-				$kegiatan = $this->db->get('tbl_kepanitiaan')->result();
+				$kegiatan = $this->db->get('tbl_kepanitiaan');
+				foreach ($kegiatan->result() as $row) 
+					{
+						$row->foto_kegiatan = "http://172.17.100.2/rest_ci/images/".$row->foto_kegiatan;	
+						$data[] = $row;
+					}
 			}else {
 				if ($sts != '') { 
 					$this->db->select('*');
@@ -37,13 +42,24 @@ class Kepanitiaan extends REST_Controller {
 					$this->db->join('tbl_sie_kegiatan sk', 'p.id_sie_kegiatan = sk.id_sie_kegiatan');
 					$this->db->join('tbl_kegiatan k', 'sk.id_kegiatan = k.id_kegiatan');
 					$this->db->where('status', $sts);
-					$kegiatan = $this->db->get('tbl_kepanitiaan')->result();
-				}else if ($id != ''	){ 					$this->db->select('*');
+					$kegiatan = $this->db->get('tbl_kepanitiaan');
+					foreach ($kegiatan->result() as $row) 
+						{
+							$row->foto_kegiatan = "http://172.17.100.2/rest_ci/images/".$row->foto_kegiatan;	
+							$data[] = $row;
+						}
+				}else if ($id != ''	){ 					
+					$this->db->select('*');
 					$this->db->from('tbl_kepanitiaan p');
 					$this->db->join('tbl_sie_kegiatan sk', 'p.id_sie_kegiatan = sk.id_sie_kegiatan');
 					$this->db->join('tbl_kegiatan k', 'sk.id_kegiatan = k.id_kegiatan');
 					$this->db->where('p.id_kepanitiaan', $id);
-					$kegiatan = $this->db->get('tbl_kepanitiaan')->result();
+					$kegiatan = $this->db->get('tbl_kepanitiaan');
+					foreach ($kegiatan->result() as $row) 
+						{
+							$row->foto_kegiatan = "http://172.17.100.2/rest_ci/images/".$row->foto_kegiatan;	
+							$data[] = $row;
+						}
 				}else if ($id_mahasiswa != '' && $sts_kegiatan != ''){ 
 					$where = array(
 						'id_mahasiswa' => $id_mahasiswa,
@@ -54,26 +70,44 @@ class Kepanitiaan extends REST_Controller {
 					$this->db->join('tbl_sie_kegiatan sk', 'p.id_sie_kegiatan = sk.id_sie_kegiatan');
 					$this->db->join('tbl_kegiatan k', 'sk.id_kegiatan = k.id_kegiatan');
 					$this->db->where($where);
-					$kegiatan = $this->db->get()->result();
+					$kegiatan = $this->db->get('tbl_kepanitiaan');
+					foreach ($kegiatan->result() as $row) 
+						{
+							$row->foto_kegiatan = "http://172.17.100.2/rest_ci/images/".$row->foto_kegiatan;	
+							$data[] = $row;
+						}
+
 				}else if ($id_kegiatan != ''){ 
 					$this->db->select('*');
 					$this->db->from('tbl_kepanitiaan p');
 					$this->db->join('tbl_sie_kegiatan sk', 'p.id_sie_kegiatan = sk.id_sie_kegiatan');
 					$this->db->join('tbl_kegiatan k', 'sk.id_kegiatan = k.id_kegiatan');
 					$this->db->where('sk.id_kegiatan',$id_kegiatan);
-					$kegiatan = $this->db->get()->result();
+					$kegiatan = $this->db->get('tbl_kepanitiaan');
+					foreach ($kegiatan->result() as $row) 
+						{
+							$row->foto_kegiatan = "http://172.17.100.2/rest_ci/images/".$row->foto_kegiatan;	
+							$data[] = $row;
+						}
+
 				}else if ($id_sie_kegiatan != ''){ 
 					$this->db->select('*');
 					$this->db->from('tbl_kepanitiaan p');
 					$this->db->join('tbl_sie_kegiatan sk', 'p.id_sie_kegiatan = sk.id_sie_kegiatan');
 					$this->db->join('tbl_member m', 'p.id_mahasiswa = m.id_mahasiswa');
 					$this->db->where('p.id_sie_kegiatan',$id_sie_kegiatan);
-					$kegiatan = $this->db->get()->result();
+					$kegiatan = $this->db->get('tbl_kepanitiaan');
+					foreach ($kegiatan->result() as $row) 
+						{
+							$row->foto_kegiatan = "http://172.17.100.2/rest_ci/images/".$row->foto_kegiatan;	
+							$data[] = $row;
+						}
+
 				} 
 
 			}
 			
-			$this->response(array('kepanitiaan' => $kegiatan), 200);
+			$this->response(array('kepanitiaan' => $data), 200);
 		}else{ // gagal login
 			$this->response(array('Message' => 'Fail Auth'), 502);
 		}
