@@ -95,8 +95,9 @@ class Kepanitiaan extends REST_Controller {
 					$this->db->from('tbl_kepanitiaan p');
 					$this->db->join('tbl_sie_kegiatan sk', 'p.id_sie_kegiatan = sk.id_sie_kegiatan');
 					$this->db->join('tbl_member m', 'p.id_mahasiswa = m.id_mahasiswa');
+					$this->db->join('tbl_kegiatan kg', 'sk.id_kegiatan = kg.id_kegiatan');
 					$this->db->where('p.id_sie_kegiatan',$id_sie_kegiatan);
-					$kegiatan = $this->db->get('tbl_kepanitiaan');
+					$kegiatan = $this->db->get();
 					foreach ($kegiatan->result() as $row) 
 						{
 							$row->foto_kegiatan = "http://172.17.100.2/rest_ci/images/".$row->foto_kegiatan;	
