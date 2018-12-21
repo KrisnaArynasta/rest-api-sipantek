@@ -24,7 +24,7 @@ class Kepanitiaan extends REST_Controller {
 			$sts = $this->get('sts');
 			
 			//Menampilkan data kegiatan tanpa parameter id dan status
-			if ($id == '' and $sts == '' and $id_mahasiswa == '' and $id_kegiatan == '' and $id_sie_kegiatan == '') {
+			if ($id =='' and $sts =='' and $id_mahasiswa =='' and $id_kegiatan =='' and $id_sie_kegiatan =='' and $sts_kegiatan =='') {
 				$this->db->select('*');
 				$this->db->from('tbl_kepanitiaan p');
 				$this->db->join('tbl_sie_kegiatan sk', 'p.id_sie_kegiatan = sk.id_sie_kegiatan');
@@ -54,7 +54,7 @@ class Kepanitiaan extends REST_Controller {
 					$this->db->join('tbl_sie_kegiatan sk', 'p.id_sie_kegiatan = sk.id_sie_kegiatan');
 					$this->db->join('tbl_kegiatan k', 'sk.id_kegiatan = k.id_kegiatan');
 					$this->db->where('p.id_kepanitiaan', $id);
-					$kegiatan = $this->db->get('tbl_kepanitiaan');
+					$kegiatan = $this->db->get();
 					foreach ($kegiatan->result() as $row) 
 						{
 							$row->foto_kegiatan = "http://172.17.100.2/rest_ci/images/".$row->foto_kegiatan;	
@@ -70,7 +70,7 @@ class Kepanitiaan extends REST_Controller {
 					$this->db->join('tbl_sie_kegiatan sk', 'p.id_sie_kegiatan = sk.id_sie_kegiatan');
 					$this->db->join('tbl_kegiatan k', 'sk.id_kegiatan = k.id_kegiatan');
 					$this->db->where($where);
-					$kegiatan = $this->db->get('tbl_kepanitiaan');
+					$kegiatan = $this->db->get();
 					foreach ($kegiatan->result() as $row) 
 						{
 							$row->foto_kegiatan = "http://172.17.100.2/rest_ci/images/".$row->foto_kegiatan;
@@ -106,7 +106,7 @@ class Kepanitiaan extends REST_Controller {
 				} 
 
 			}
-			
+
 			$this->response(array('kepanitiaan' => $data), 200);
 		}else{ // gagal login
 			$this->response(array('Message' => 'Fail Auth'), 502);
