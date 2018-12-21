@@ -20,9 +20,10 @@ class Kegiatan extends REST_Controller {
 
 			$id = $this->get('id');
 			$sts = $this->get('sts');
+			$id_mahasiswa = $this->get('id_mahasiswa');
 			
 			//Menampilkan data kegiatan tanpa parameter id dan status
-			if ($id == '' and $sts == '') {
+			if ($id == '' and $sts == '' and $id_mahasiswa == '') {
 				$this->db->order_by('id_kegiatan','DESC');
 				$kegiatan = $this->db->get('tbl_kegiatan');
 					foreach ($kegiatan->result() as $row) 
@@ -50,7 +51,29 @@ class Kegiatan extends REST_Controller {
 						$row->foto_kegiatan = "http://172.17.100.2/rest_ci/images/".$row->foto_kegiatan;	
 						$data[] = $row;
 					}
-				} 
+				}else if ($id_mahasiswa != ''){ 
+					//Menampilkan data kegiatan yang belum diikuti mahaiswa 
+					$this->db->select('k.id_kegiatan');
+					$this->db->join('tbl_sie_kegiatan sk', 'k.id_kegiatan = sk.id_kegiatan');
+					$this->db->join('tbl_kepanitiaan kp', 'sk.id_sie_kegiatan = kp.id_sie_kegiatan');
+					$this->db->where('kp.id_mahasiswa',$id_mahasiswa);
+					$kegiatan_not = $this->db->get('tbl_kegiatan k');
+					foreach ($kegiatan_not->result() as $row_kegiatan_selected) 
+					{
+						$id_kegiatan_selected[] = $row_kegiatan_selected->id_kegiatan;
+						//$id_kegiatan_selected = array('25', '24', '3');
+					}
+					
+					$this->db->where_not_in('id_kegiatan', $id_kegiatan_selected);
+					$this->db->where('status', 1);
+					$this->db->order_by('id_kegiatan','DESC');
+					$kegiatan = $this->db->get('tbl_kegiatan');
+					foreach ($kegiatan->result() as $row) 
+					{
+						$row->foto_kegiatan = "http://172.17.100.2/rest_ci/images/".$row->foto_kegiatan;	
+						$data[] = $row;
+					}
+				}
 
 			}
 			
