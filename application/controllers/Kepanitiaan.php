@@ -60,12 +60,11 @@ class Kepanitiaan extends REST_Controller {
 					foreach ($kegiatan->result() as $row) 
 						{
 							$row->foto_kegiatan = "http://172.17.100.2/rest_ci/images/".$row->foto_kegiatan;	
-							$row->foto_mahasiswa = "http://172.17.100.2/rest_ci/images/member/".$row->foto_mahasiswa;
 							$data[] = $row;
 						}
 				}else if ($id_mahasiswa != '' && $sts_kegiatan != ''){ 
 					$where = array(
-						'sk.id_mahasiswa' => $id_mahasiswa,
+						'p.id_mahasiswa' => $id_mahasiswa,
 						'status' => $sts_kegiatan
 					);
 					$this->db->select('*');
@@ -76,8 +75,7 @@ class Kepanitiaan extends REST_Controller {
 					$kegiatan = $this->db->get('tbl_kepanitiaan');
 					foreach ($kegiatan->result() as $row) 
 						{
-							$row->foto_kegiatan = "http://172.17.100.2/rest_ci/images/".$row->foto_kegiatan;	
-							$row->foto_mahasiswa = "http://172.17.100.2/rest_ci/images/member/".$row->foto_mahasiswa;
+							$row->foto_kegiatan = "http://172.17.100.2/rest_ci/images/".$row->foto_kegiatan;
 							$data[] = $row;
 						}
 
